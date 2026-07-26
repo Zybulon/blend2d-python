@@ -11,7 +11,7 @@ static void fontDataDestroyCallback(void *impl, void *userData, void *) noexcept
 void register_font(nb::module_ &m)
 {
     // FontData
-    nb::class_<BLFontData>(m, "BLFontData")
+    nb::class_<BLFontData>(m, "FontData")
         .def(nb::init<>())
         .def("__del__", [](BLFontData *self)
              { self->reset(); })
@@ -33,7 +33,7 @@ void register_font(nb::module_ &m)
              { return self.empty(); });
 
     // FontFace
-    nb::class_<BLFontFace>(m, "BLFontFace")
+    nb::class_<BLFontFace>(m, "FontFace")
         .def(nb::init<>())
         .def("__del__", [](BLFontFace *self)
              { self->reset(); })
@@ -66,7 +66,7 @@ void register_font(nb::module_ &m)
                      { return self.style(); });
 
     // Font
-    nb::class_<BLFont>(m, "BLFont")
+    nb::class_<BLFont>(m, "Font")
         .def(nb::init<>())
         .def("__del__", [](BLFont *self)
              { self->reset(); })
@@ -143,7 +143,7 @@ void register_font(nb::module_ &m)
                  tm.boundingBox.y1); }, nb::arg("text"));
 
     // GlyphBuffer
-    nb::class_<BLGlyphBuffer>(m, "BLGlyphBuffer")
+    nb::class_<BLGlyphBuffer>(m, "GlyphBuffer")
         .def(nb::init<>())
         .def("__del__", [](BLGlyphBuffer *self)
              { self->reset(); })

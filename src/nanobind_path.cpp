@@ -4,7 +4,7 @@
 
 void register_path(nb::module_ &m)
 {
-     nb::class_<BLPath>(m, "BLPath")
+     nb::class_<BLPath>(m, "Path")
          .def(nb::init<>())
          .def("__del__", [](BLPath *self)
               { self->reset(); })

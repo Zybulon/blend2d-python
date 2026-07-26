@@ -70,7 +70,7 @@ void register_geometry(nb::module_ &m)
            { return BLMatrix2D::makeSkewing(x, y); }, nb::arg("x"), nb::arg("y"));
 
      // Rect
-     nb::class_<BLRect>(m, "BLRect")
+     nb::class_<BLRect>(m, "Rect")
          .def(nb::init<float, float, float, float>(),
               nb::arg("x"), nb::arg("y"), nb::arg("w"), nb::arg("h"))
          .def_rw("x", &BLRect::x)
@@ -84,7 +84,7 @@ void register_geometry(nb::module_ &m)
                        ", h=" + std::to_string(self.h) + ")"; });
 
      // RectI
-     nb::class_<BLRectI>(m, "BLRectI")
+     nb::class_<BLRectI>(m, "RectI")
          .def(nb::init<int, int, int, int>(),
               nb::arg("x"), nb::arg("y"), nb::arg("w"), nb::arg("h"))
          .def_rw("x", &BLRectI::x)
@@ -98,7 +98,7 @@ void register_geometry(nb::module_ &m)
                        ", h=" + std::to_string(self.h) + ")"; });
 
      // Box
-     nb::class_<BLBox>(m, "BLBox")
+     nb::class_<BLBox>(m, "Box")
          .def(nb::init<double, double, double, double>(),
               nb::arg("x0"), nb::arg("y0"), nb::arg("x1"), nb::arg("y1"))
          .def_rw("x0", &BLBox::x0)
@@ -112,7 +112,7 @@ void register_geometry(nb::module_ &m)
                        ", y1=" + std::to_string(self.y1) + ")"; });
 
      // Point
-     nb::class_<BLPoint>(m, "BLPoint")
+     nb::class_<BLPoint>(m, "Point")
          .def(nb::init<double, double>(),
               nb::arg("x"), nb::arg("y"))
          .def_rw("x", &BLPoint::x)
@@ -122,7 +122,7 @@ void register_geometry(nb::module_ &m)
                        ", y=" + std::to_string(self.y) + ")"; });
 
      // PointI
-     nb::class_<BLPointI>(m, "BLPointI")
+     nb::class_<BLPointI>(m, "PointI")
          .def(nb::init<int, int>(),
               nb::arg("x"), nb::arg("y"))
          .def_rw("x", &BLPointI::x)
@@ -132,7 +132,7 @@ void register_geometry(nb::module_ &m)
                        ", y=" + std::to_string(self.y) + ")"; });
 
      // Size
-     nb::class_<BLSize>(m, "BLSize")
+     nb::class_<BLSize>(m, "Size")
          .def(nb::init<double, double>(),
               nb::arg("w"), nb::arg("h"))
          .def_rw("w", &BLSize::w)
@@ -142,7 +142,7 @@ void register_geometry(nb::module_ &m)
                        ", h=" + std::to_string(self.h) + ")"; });
 
      // SizeI
-     nb::class_<BLSizeI>(m, "BLSizeI")
+     nb::class_<BLSizeI>(m, "SizeI")
          .def(nb::init<int, int>(),
               nb::arg("w"), nb::arg("h"))
          .def_rw("w", &BLSizeI::w)

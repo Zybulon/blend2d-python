@@ -2,7 +2,7 @@
 
 void register_pattern(nb::module_ &m)
 {
-     nb::class_<BLPattern>(m, "BLPattern")
+     nb::class_<BLPattern>(m, "Pattern")
          .def(nb::init<>())
          .def("__init__", [](BLPattern &self, const BLImage &image, const BLRectI &area, BLExtendMode mode, const BLMatrix2D &matrix)
               { self.create(image, area, mode, matrix); }, nb::arg("image"), nb::arg("area"), nb::arg("extend_mode") = BL_EXTEND_MODE_REPEAT, nb::arg("matrix") = BLMatrix2D())

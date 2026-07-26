@@ -3,7 +3,7 @@
 void register_array(nb::module_ &m)
 {
      // BLArray - uint8_t
-     nb::class_<BLArray<uint8_t>>(m, "BLArray")
+     nb::class_<BLArray<uint8_t>>(m, "Array")
          .def(nb::init<>()) // Default constructor
          .def("__del__", [](BLArray<uint8_t> *self)
               { self->reset(); })
@@ -35,7 +35,7 @@ void register_array(nb::module_ &m)
             return result; }, nb::rv_policy::take_ownership);
 
      // BLArray - uint16_t
-     nb::class_<BLArray<uint16_t>>(m, "BLArray16")
+     nb::class_<BLArray<uint16_t>>(m, "Array16")
          .def(nb::init<>()) // Default constructor
          .def("__del__", [](BLArray<uint16_t> *self)
               { self->reset(); })
@@ -67,7 +67,7 @@ void register_array(nb::module_ &m)
             return result; }, nb::rv_policy::take_ownership);
 
      // BLArray - uint32_t
-     nb::class_<BLArray<uint32_t>>(m, "BLArray32")
+     nb::class_<BLArray<uint32_t>>(m, "Array32")
          .def(nb::init<>()) // Default constructor
          .def("__del__", [](BLArray<uint32_t> *self)
               { self->reset(); })
@@ -99,7 +99,7 @@ void register_array(nb::module_ &m)
             return result; }, nb::rv_policy::take_ownership);
 
      // BLArray - float
-     nb::class_<BLArray<float>>(m, "BLArrayFloat")
+     nb::class_<BLArray<float>>(m, "ArrayFloat")
          .def(nb::init<>()) // Default constructor
          .def("__del__", [](BLArray<float> *self)
               { self->reset(); })
@@ -131,7 +131,7 @@ void register_array(nb::module_ &m)
             return result; }, nb::rv_policy::take_ownership);
 
      // BLArray - double
-     nb::class_<BLArray<double>>(m, "BLArrayDouble")
+     nb::class_<BLArray<double>>(m, "ArrayDouble")
          .def(nb::init<>()) // Default constructor
          .def("__del__", [](BLArray<double> *self)
               { self->reset(); })

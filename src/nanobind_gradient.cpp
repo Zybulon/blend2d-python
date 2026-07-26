@@ -3,7 +3,7 @@
 void register_gradient(nb::module_ &m)
 {
      // Base Gradient class
-     auto gradient = nb::class_<BLGradient>(m, "BLGradient")
+     auto gradient = nb::class_<BLGradient>(m, "Gradient")
                          .def(nb::init<>())
                          .def("__del__", [](BLGradient *self)
                               { self->reset(); })

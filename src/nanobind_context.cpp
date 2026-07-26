@@ -2,7 +2,7 @@
 
 void register_context(nb::module_ &m)
 {
-     nb::class_<BLContext>(m, "BLContext")
+     nb::class_<BLContext>(m, "Context")
          .def(nb::init<>()) // Default constructor
          .def(nb::init<BLImage &>(), nb::arg("image"))
          .def("__del__", [](BLContext *self)

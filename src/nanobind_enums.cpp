@@ -3,7 +3,7 @@
 void register_enums(nb::module_ &m)
 {
     // Enums
-    nb::enum_<BLObjectType>(m, "BLObjectType")
+    nb::enum_<BLObjectType>(m, "ObjectType")
         .value("ARRAY_I8", BL_OBJECT_TYPE_ARRAY_INT8)
         .value("ARRAY_U8", BL_OBJECT_TYPE_ARRAY_UINT8)
         .value("ARRAY_I16", BL_OBJECT_TYPE_ARRAY_INT16)
@@ -15,7 +15,7 @@ void register_enums(nb::module_ &m)
         .value("ARRAY_F32", BL_OBJECT_TYPE_ARRAY_FLOAT32)
         .value("ARRAY_F64", BL_OBJECT_TYPE_ARRAY_FLOAT64);
 
-    nb::enum_<BLCompOp>(m, "BLCompOp")
+    nb::enum_<BLCompOp>(m, "CompOp")
         .value("SRC_OVER", BL_COMP_OP_SRC_OVER)
         .value("SRC_COPY", BL_COMP_OP_SRC_COPY)
         .value("SRC_IN", BL_COMP_OP_SRC_IN)
@@ -46,7 +46,7 @@ void register_enums(nb::module_ &m)
         .value("DIFFERENCE", BL_COMP_OP_DIFFERENCE)
         .value("EXCLUSION", BL_COMP_OP_EXCLUSION);
 
-    nb::enum_<BLExtendMode>(m, "BLExtendMode")
+    nb::enum_<BLExtendMode>(m, "ExtendMode")
         .value("PAD", BL_EXTEND_MODE_PAD)
         .value("REPEAT", BL_EXTEND_MODE_REPEAT)
         .value("REFLECT", BL_EXTEND_MODE_REFLECT)
@@ -60,13 +60,13 @@ void register_enums(nb::module_ &m)
         .value("REFLECT_X_PAD_Y", BL_EXTEND_MODE_REFLECT_X_PAD_Y)
         .value("REFLECT_X_REPEAT_Y", BL_EXTEND_MODE_REFLECT_X_REPEAT_Y);
 
-    nb::enum_<BLFormat>(m, "BLFormat")
+    nb::enum_<BLFormat>(m, "Format")
         .value("NONE", BL_FORMAT_NONE)
         .value("PRGB32", BL_FORMAT_PRGB32)
         .value("XRGB32", BL_FORMAT_XRGB32)
         .value("A8", BL_FORMAT_A8);
 
-    nb::enum_<BLStrokeCap>(m, "BLStrokeCap")
+    nb::enum_<BLStrokeCap>(m, "StrokeCap")
         .value("CAP_BUTT", BL_STROKE_CAP_BUTT)
         .value("CAP_SQUARE", BL_STROKE_CAP_SQUARE)
         .value("CAP_ROUND", BL_STROKE_CAP_ROUND)
@@ -74,11 +74,11 @@ void register_enums(nb::module_ &m)
         .value("CAP_TRIANGLE", BL_STROKE_CAP_TRIANGLE)
         .value("CAP_TRIANGLE_REV", BL_STROKE_CAP_TRIANGLE_REV);
 
-    nb::enum_<BLStrokeCapPosition>(m, "BLStrokeCapPosition")
+    nb::enum_<BLStrokeCapPosition>(m, "StrokeCapPosition")
         .value("CAP_START", BL_STROKE_CAP_POSITION_START)
         .value("CAP_END", BL_STROKE_CAP_POSITION_END);
 
-    nb::enum_<BLStrokeJoin>(m, "BLStrokeJoin")
+    nb::enum_<BLStrokeJoin>(m, "StrokeJoin")
         .value("JOIN_MITER_CLIP", BL_STROKE_JOIN_MITER_CLIP)
         .value("JOIN_MITER_BEVEL", BL_STROKE_JOIN_MITER_BEVEL)
         .value("JOIN_MITER_ROUND", BL_STROKE_JOIN_MITER_ROUND)
@@ -91,24 +91,24 @@ void register_enums(nb::module_ &m)
     m.attr("OPENTYPE_GSUB") = BL_MAKE_TAG('G', 'S', 'U', 'B');
     m.attr("OPENTYPE_KERN") = BL_MAKE_TAG('k', 'e', 'r', 'n');
 
-    nb::enum_<BLFontOutlineType>(m, "BLFontOutlineType")
+    nb::enum_<BLFontOutlineType>(m, "FontOutlineType")
         .value("NONE", BL_FONT_OUTLINE_TYPE_NONE)
         .value("TRUETYPE", BL_FONT_OUTLINE_TYPE_TRUETYPE)
         .value("CFF", BL_FONT_OUTLINE_TYPE_CFF);
 
     // Add gradient type enum
-    nb::enum_<BLGradientType>(m, "BLGradientType")
+    nb::enum_<BLGradientType>(m, "GradientType")
         .value("LINEAR", BL_GRADIENT_TYPE_LINEAR)
         .value("RADIAL", BL_GRADIENT_TYPE_RADIAL)
         .value("CONICAL", BL_GRADIENT_TYPE_CONIC);
 
     // Add fill rule enum
-    nb::enum_<BLFillRule>(m, "BLFillRule")
+    nb::enum_<BLFillRule>(m, "FillRule")
         .value("NON_ZERO", BL_FILL_RULE_NON_ZERO)
         .value("EVEN_ODD", BL_FILL_RULE_EVEN_ODD);
 
     // Add transform op enum
-    nb::enum_<BLTransformOp>(m, "BLTransformOp")
+    nb::enum_<BLTransformOp>(m, "TransformOp")
         .value("RESET", BL_TRANSFORM_OP_RESET)
         .value("ASSIGN", BL_TRANSFORM_OP_ASSIGN)
         .value("TRANSLATE", BL_TRANSFORM_OP_TRANSLATE)

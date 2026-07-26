@@ -7,7 +7,7 @@ namespace nb = nanobind;
 void register_image(nb::module_ &m)
 {
     // First register the image filter enum
-    nb::enum_<BLImageScaleFilter>(m, "BLImageScaleFilter")
+    nb::enum_<BLImageScaleFilter>(m, "ImageScaleFilter")
         .value("NONE", BL_IMAGE_SCALE_FILTER_NONE)
         .value("NEAREST", BL_IMAGE_SCALE_FILTER_NEAREST)
         .value("BILINEAR", BL_IMAGE_SCALE_FILTER_BILINEAR)
@@ -15,7 +15,7 @@ void register_image(nb::module_ &m)
         .value("LANCZOS", BL_IMAGE_SCALE_FILTER_LANCZOS);
 
     // BLImage class - use BLImage as the class name to match C++ code
-    nb::class_<BLImage>(m, "BLImage")
+    nb::class_<BLImage>(m, "Image")
         .def(nb::init<>())
         .def(nb::init<int, int, BLFormat>(), nb::arg("w"), nb::arg("h"), nb::arg("format") = BL_FORMAT_PRGB32)
 
@@ -32,7 +32,7 @@ void register_image(nb::module_ &m)
                 throw std::runtime_error("Failed to create image");
             } }, nb::arg("w"), nb::arg("h"), nb::arg("format") = BL_FORMAT_PRGB32)
 
-        .def_static("createNew", [](int w, int h, BLFormat format)
+        .def_static("create_new", [](int w, int h, BLFormat format)
                     {
             BLImage img;
             BLResult result = img.create(w, h, format);
@@ -42,14 +42,14 @@ void register_image(nb::module_ &m)
             return img; }, nb::arg("w"), nb::arg("h"), nb::arg("format") = BL_FORMAT_PRGB32)
 
         // Image IO
-        .def("readFromFile", [](BLImage &self, const std::string &fileName)
+        .def("read_from_file", [](BLImage &self, const std::string &fileName)
              {
             BLResult result = self.readFromFile(fileName.c_str());
             if (result != BL_SUCCESS) {
                 throw std::runtime_error("Failed to read image from file");
             } }, nb::arg("fileName"))
 
-        .def("writeToFile", [](const BLImage &self, const std::string &fileName)
+        .def("write_to_file", [](const BLImage &self, const std::string &fileName)
              {
             BLResult result = self.writeToFile(fileName.c_str());
             if (result != BL_SUCCESS) {
@@ -74,7 +74,7 @@ void register_image(nb::module_ &m)
             } }, nb::arg("dst"), nb::arg("src"), nb::arg("w"), nb::arg("h"), nb::arg("filter") = BL_IMAGE_SCALE_FILTER_BILINEAR)
 
         // Convenience method for in-place scaling - use the proper enum type
-        .def("scaleToSize", [](BLImage &self, int w, int h, BLImageScaleFilter filter)
+        .def("scale_to_size", [](BLImage &self, int w, int h, BLImageScaleFilter filter)
              {
             BLImage dst;
             BLSizeI size(w, h);
@@ -93,7 +93,7 @@ void register_image(nb::module_ &m)
                      { return nb::make_tuple(self.width(), self.height()); })
 
         // Image data access
-        .def("getData", [](const BLImage &self)
+        .def("get_data", [](const BLImage &self)
              {
             if (self.empty()) {
                 throw nb::value_error("Image is empty");
@@ -116,7 +116,7 @@ void register_image(nb::module_ &m)
             return result; })
 
         // Create a NumPy array from image data
-        .def("getDataAsNumPy", [](const BLImage &self)
+        .def("get_data_as_numPy", [](const BLImage &self)
              {
             if (self.empty()) {
                 throw nb::value_error("Image is empty");
