@@ -39,7 +39,7 @@ class cmake_build_ext(build_ext):
             
             # Define optimization flags for C/C++
             # Add -O3 and -ffast-math for maximum optimization
-            optimization_flags = "-O3 -ffast-math"
+            optimization_flags = "-O2"
             
             cmake_args = [
                 "-DBLEND2D_STATIC=TRUE",
@@ -66,8 +66,8 @@ class cmake_build_ext(build_ext):
                     # For MSVC, use equivalent optimization flags
                     cmake_args += [
                         "-DCMAKE_GENERATOR_PLATFORM={}".format(plat),
-                        "-DCMAKE_CXX_FLAGS=/O2 /fp:fast",
-                        "-DCMAKE_C_FLAGS=/O2 /fp:fast",
+                        "-DCMAKE_CXX_FLAGS=/O2",
+                        "-DCMAKE_C_FLAGS=/O2",
                     ]
                 else:
                     # For MinGW on Windows
