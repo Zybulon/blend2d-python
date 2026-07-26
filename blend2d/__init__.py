@@ -20,26 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from __future__ import absolute_import
+import importlib.metadata
 
-from ._capi import (
-    Array,
-    ArrayType,
-    CompOp,
-    ConicalGradient,
-    Context,
-    ExtendMode,
-    Font,
-    Format,
-    Image,
-    LinearGradient,
-    Matrix2D,
-    Path,
-    Pattern,
-    RadialGradient,
-    Rect,
-    RectI,
-    StrokeCap,
-    StrokeCapPosition,
-    StrokeJoin,
-)
+try:
+    __version__ = importlib.metadata.version("blend2d")
+except importlib.metadata.PackageNotFoundError:
+    __version__ = "0.0.1"  # Default version if package is not installed
+
+from ._capi import *

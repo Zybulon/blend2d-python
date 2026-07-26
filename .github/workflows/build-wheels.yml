@@ -1,0 +1,142 @@
+name: Build Wheels
+
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - 'v*'  # Run on version tags for PyPI releases
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      publish_to:
+        description: 'Publish wheels to'
+        required: true
+        default: 'none'
+        type: choice
+        options:
+        - none
+        - test-pypi
+        - pypi
+
+jobs:
+  build_wheels:
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # Temporarily disabled macOS until import issue is resolved
+        # os: [ubuntu-latest, windows-latest, macos-13, macos-14]
+        os: [ubuntu-latest, windows-latest]
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      # Set up QEMU for ARM64 Linux builds
+      - name: Set up QEMU
+        if: runner.os == 'Linux'
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install cibuildwheel
+
+      # Build the wheels (using pyproject.toml configuration)
+      - name: Build wheels
+        run: python -m cibuildwheel --output-dir wheelhouse
+        env:
+          # macOS-specific: build for the native architecture only
+          CIBW_ARCHS_MACOS: ${{ matrix.os == 'macos-13' && 'x86_64' || matrix.os == 'macos-14' && 'arm64' || 'auto' }}
+      
+      # Upload artifacts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheels-${{ matrix.os }}
+          path: ./wheelhouse/*.whl
+
+  # Build source distribution
+  build_sdist:
+    name: Build source distribution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install build
+
+      - name: Build sdist
+        run: python -m build --sdist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sdist
+          path: dist/*.tar.gz
+
+  # Job to publish to PyPI
+  publish:
+    name: Publish to PyPI
+    needs: [build_wheels, build_sdist]
+    runs-on: ubuntu-latest
+    # Add environment for Trusted Publishing
+    environment:
+      name: pypi
+      url: https://pypi.org/p/blend2d-python
+    # Required permissions for Trusted Publishing
+    permissions:
+      id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
+    # Run based on conditions
+    if: >-
+      startsWith(github.ref, 'refs/tags/') || 
+      (github.event_name == 'workflow_dispatch' && 
+       (github.event.inputs.publish_to == 'test-pypi' || github.event.inputs.publish_to == 'pypi'))
+    
+    steps:
+      # Download all wheel artifacts
+      - uses: actions/download-artifact@v4
+        with:
+          path: ./dist
+          merge-multiple: true
+      
+      - name: List all files to be uploaded
+        run: |
+          ls -lah ./dist/
+      
+      # Upload to TestPyPI
+      - name: Upload to TestPyPI
+        if: >-
+          github.event.inputs.publish_to == 'test-pypi' || 
+          (startsWith(github.ref, 'refs/tags/') && contains(github.ref, '-rc'))
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          repository-url: https://test.pypi.org/legacy/
+          skip-existing: true
+      
+      # Upload to PyPI using Trusted Publishing (no token needed!)
+      - name: Upload to PyPI
+        if: >-
+          github.event.inputs.publish_to == 'pypi' || 
+          (startsWith(github.ref, 'refs/tags/') && !contains(github.ref, '-rc'))
+        uses: pypa/gh-action-pypi-publish@release/v1
+        # No credentials needed - uses Trusted Publishing via OIDC

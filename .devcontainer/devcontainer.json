@@ -1,0 +1,39 @@
+{
+    "name": "Blend2D Python Development",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": ".."
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-vscode.cmake-tools",
+                "ms-vscode.cpptools-extension-pack"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "/usr/bin/python",
+                "python.linting.enabled": true,
+                "python.linting.pylintEnabled": true,
+                "python.formatting.autopep8Enabled": true,
+                "python.formatting.blackEnabled": true,
+                "python.formatting.yapfEnabled": false,
+                "python.testing.pytestEnabled": true,
+                "python.testing.unittestEnabled": false,
+                "editor.formatOnSave": true
+            }
+        }
+    },
+    "remoteUser": "ubuntu",
+    "features": {
+        "ghcr.io/devcontainers/features/git:1": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {
+            "version": "latest",
+            "moby": true,
+            "dockerDashComposeVersion": "v2"
+        }
+    }
+}

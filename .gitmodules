@@ -4,3 +4,9 @@
 [submodule "3rdparty/asmjit"]
 	path = 3rdparty/asmjit
 	url = https://github.com/asmjit/asmjit.git
+[submodule "nanobind"]
+	path = nanobind
+	url = https://github.com/wjakob/nanobind.git
+[submodule "3rdparty/nanobind"]
+	path = 3rdparty/nanobind
+	url = https://github.com/wjakob/nanobind.git

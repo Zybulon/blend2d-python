@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=42", "wheel", "numpy"]
+build-backend = "setuptools.build_meta"
+
+[tool.cibuildwheel]
+# Skip PyPy builds, musllinux, and macOS (temporarily until import issue is resolved)
+skip = ["pp*", "*-musllinux*", "*-macosx*"]
+
+# Build for CPython 3.8-3.12 (broader compatibility)
+build = ["cp38-*", "cp39-*", "cp310-*", "cp311-*", "cp312-*"]
+
+# Use manylinux_2_28 for Linux builds to ensure better compatibility
+manylinux-x86_64-image = "manylinux_2_28"
+manylinux-aarch64-image = "manylinux_2_28"
+
+# Include NumPy in the build environment
+build-frontend = "pip"
+before-build = [
+    "pip install numpy",
+    "python -c \"import os, glob, shutil; [shutil.rmtree(p, ignore_errors=True) for p in glob.glob('**/CMakeCache.txt', recursive=True)]; [shutil.rmtree(p, ignore_errors=True) for p in glob.glob('**/build/temp.*', recursive=True)]; print('Cleared CMake cache files and build directories')\""
+]
+
+# Default architectures (can be overridden per platform)
+# Linux: x86_64, aarch64
+# macOS: x86_64, arm64 (Apple Silicon)  
+# Windows: AMD64
+
+# Test the wheels after building
+test-command = "python -c \"import blend2d; print(blend2d.__version__)\""
+test-skip = ["*-emscripten*"]
+
+# Platform-specific configurations
+[tool.cibuildwheel.linux]
+archs = ["x86_64", "aarch64"]
+before-all = [
+    "yum install -y cmake",
+]
+environment = { CMAKE_BUILD_PARALLEL_LEVEL="4" }
+
+[tool.cibuildwheel.macos]
+archs = ["x86_64", "arm64"]
+environment = { CMAKE_BUILD_PARALLEL_LEVEL="4", MACOSX_DEPLOYMENT_TARGET="10.13" }
+
+[tool.cibuildwheel.windows]
+archs = ["AMD64"]
+before-build = [
+    "pip install delvewheel numpy",
+    "python -c \"import os, glob, shutil; [shutil.rmtree(p, ignore_errors=True) for p in glob.glob('**/CMakeCache.txt', recursive=True)]; [shutil.rmtree(p, ignore_errors=True) for p in glob.glob('**/build/temp.*', recursive=True)]; print('Cleared CMake cache files and build directories')\""
+]
+repair-wheel-command = "delvewheel repair -w {dest_dir} {wheel}"

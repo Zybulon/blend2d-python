@@ -12,3 +12,6 @@ src/*.c
 *.png
 
 dist
+build/
+cmake-build/
+.history/

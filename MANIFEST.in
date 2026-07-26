@@ -1,0 +1,18 @@
+include README.md
+include LICENSE
+include pyproject.toml
+include setup.cfg
+include CMakeLists.txt
+include requirements.txt
+
+recursive-include src *.cpp *.h *.hpp
+recursive-include 3rdparty *
+recursive-include blend2d *.py *.pyi
+
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .DS_Store
+global-exclude *.so
+global-exclude *.dylib
+global-exclude *.dll
+
