@@ -48,28 +48,28 @@ pip install -e .
 
 ```python
 import numpy as np
-from blend2d import Context, Image, Gradient, Path, Format
+import blend2d
 
 # Create an image
-img = Image(480, 480, Format.PRGB32)
+img = blend2d.Image(480, 480, blend2d.Format.PRGB32)
 
 # Attach a rendering context to it
-ctx = Context(img)
+ctx = blend2d.Context(img)
 
 # Clear the image with white color
 ctx.fill_all((1.0, 1.0, 1.0, 1.0))
 
 # Create a linear gradient
-gradient = Gradient.create_linear(0, 0, 480, 480)
+gradient = blend2d.create_linear_gradient(0, 0, 480, 480)
 gradient.add_stop(0.0, (1.0, 0.0, 0.0, 1.0))
 gradient.add_stop(0.5, (0.0, 1.0, 0.0, 1.0))
 gradient.add_stop(1.0, (0.0, 0.0, 1.0, 1.0))
 
 # Create a path (a star, for example)
-path = Path()
+path = blend2d.Path()
 path.move_to(240, 80)
 for i in range(5):
-    angle = (i * 2.0 * np.pi / 5.0) + np.pi / 2.0
+    angle = -(2 * i * 2.0 * np.pi / 5.0 + np.pi / 2)
     path.line_to(240 + 160 * np.cos(angle), 240 + 160 * np.sin(angle))
 
 # Fill the path with the gradient
