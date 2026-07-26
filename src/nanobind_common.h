@@ -65,6 +65,26 @@ static uint32_t _get_rgba32_value(const nb::tuple &color)
     return (alpha << 24) | (b << 16) | (g << 8) | r;
 }
 
+static uint32_t _get_rgba32_value(const nb::list &color)
+{
+    uint32_t r, g, b, alpha;
+
+    r = uint32_t(255 * nb::cast<double>(color[0]));
+    g = uint32_t(255 * nb::cast<double>(color[1]));
+    b = uint32_t(255 * nb::cast<double>(color[2]));
+
+    if (color.size() > 3)
+    {
+        alpha = uint32_t(255 * nb::cast<double>(color[3]));
+    }
+    else
+    {
+        alpha = 255;
+    }
+
+    return (alpha << 24) | (b << 16) | (g << 8) | r;
+}
+
 static std::string _utf8_string(const nb::object &s)
 {
     if (nb::isinstance<nb::str>(s))

@@ -17,6 +17,14 @@ void register_context(nb::module_ &m)
               { self.restore(); })
          .def("clear_all", [](BLContext &self)
               { self.clearAll(); })
+         .def("fill_all", [](BLContext &self, const nb::tuple &color)
+              { 
+            uint32_t packed = _get_rgba32_value(color);
+                  self.fillAll(BLRgba32(packed)); }, nb::arg("color"))
+         .def("fill_all", [](BLContext &self, const nb::list &color)
+              { 
+            uint32_t packed = _get_rgba32_value(color);
+                  self.fillAll(BLRgba32(packed)); }, nb::arg("color"))
          .def("fill_all", [](BLContext &self)
               { self.fillAll(); })
          .def("flush", [](BLContext &self)
@@ -70,6 +78,10 @@ void register_context(nb::module_ &m)
               {
             uint32_t packed = _get_rgba32_value(color);
             self.setFillStyle(BLRgba32(packed)); }, nb::arg("color"))
+         .def("set_fill_style", [](BLContext &self, const nb::list &color)
+              {
+            uint32_t packed = _get_rgba32_value(color);
+            self.setFillStyle(BLRgba32(packed)); }, nb::arg("color"))
          .def("set_fill_style", [](BLContext &self, const BLGradient &gradient)
               { self.setFillStyle(gradient); }, nb::arg("gradient"))
          .def("set_fill_style", [](BLContext &self, const BLPattern &pattern)
@@ -81,6 +93,10 @@ void register_context(nb::module_ &m)
               {
             uint32_t packed = _get_rgba32_value(color);
             self.setStrokeStyle(BLRgba32(packed)); }, nb::arg("color"))
+         .def("set_stroke_style", [](BLContext &self, const nb::list &color)
+              {
+            uint32_t packed = _get_rgba32_value(color);
+            self.setStrokeStyle(BLRgba32(packed)); }, nb::arg("color"))
          .def("set_stroke_style", [](BLContext &self, const BLGradient &gradient)
               { self.setStrokeStyle(gradient); }, nb::arg("gradient"))
          .def("set_stroke_style", [](BLContext &self, const BLPattern &pattern)
@@ -88,6 +104,8 @@ void register_context(nb::module_ &m)
          .def_prop_rw("stroke_width", [](const BLContext &self)
                       { return self.strokeWidth(); }, [](BLContext &self, double width)
                       { self.setStrokeWidth(width); })
+         .def("set_stroke_width", [](BLContext &self, double width)
+              { self.setStrokeWidth(width); }, nb::arg("width"))
          .def_prop_rw("stroke_miter_limit", [](const BLContext &self)
                       { return self.strokeMiterLimit(); }, [](BLContext &self, double limit)
                       { self.setStrokeMiterLimit(limit); })
@@ -98,6 +116,8 @@ void register_context(nb::module_ &m)
          .def_prop_rw("stroke_join", [](const BLContext &self)
                       { return self.strokeJoin(); }, [](BLContext &self, BLStrokeJoin join)
                       { self.setStrokeJoin(join); })
+         .def("set_stroke_join", [](BLContext &self, BLStrokeJoin join)
+                      { self.setStrokeJoin(join); }, nb::arg("join"))
          .def_prop_rw("stroke_dash_offset", [](const BLContext &self)
                       { return self.strokeDashOffset(); }, [](BLContext &self, double offset)
                       { self.setStrokeDashOffset(offset); })

@@ -31,6 +31,15 @@ void register_image(nb::module_ &m)
             if (result != BL_SUCCESS) {
                 throw std::runtime_error("Failed to create image");
             } }, nb::arg("w"), nb::arg("h"), nb::arg("format") = BL_FORMAT_PRGB32)
+            
+        .def("create_from_data", [](BLImage &self, nb::ndarray<nb::numpy, uint8_t> &array, BLFormat format)
+             {
+                 // array.shape(1) = width, array.shape(0) = height
+            BLResult result = self.createFromData(array.shape(1), array.shape(0), format, array.data(), array.stride(0));
+            if (result != BL_SUCCESS) {
+                throw std::runtime_error("Failed to create image from data");
+            } }
+            , nb::arg("array"), nb::arg("format") = BL_FORMAT_PRGB32)
 
         .def_static("create_new", [](int w, int h, BLFormat format)
                     {
