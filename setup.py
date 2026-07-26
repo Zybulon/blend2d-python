@@ -153,6 +153,6 @@ setup(
     ext_modules=[CMakeExtension("blend2d._capi")],
     cmdclass={"build_ext": cmake_build_ext},
     install_requires=["numpy"],
-    python_requires=">=3.8",
+    python_requires=">=3.10",
     setup_requires=["numpy"],
 )

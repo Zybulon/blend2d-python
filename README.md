@@ -15,7 +15,7 @@ This project has been converted from the original Cython-based implementation to
 
 - C++17 compatible compiler
 - CMake 3.15 or newer
-- Python 3.8 or newer
+- Python 3.10 or newer
 - NumPy
 
 ## Installation
